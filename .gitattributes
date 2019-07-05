@@ -1,0 +1,7 @@
+* text=auto eol=lf
+Dockerfile text eol=lf
+*.py eol=lf
+*.css eol=lf
+*.js eol=lf
+*.sh text eol=lf
+*.html text eol=lf

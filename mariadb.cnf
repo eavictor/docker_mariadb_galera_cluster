@@ -1,0 +1,32 @@
+[mysqld]
+default_storage_engine          = InnoDB
+binlog_format                   = ROW
+
+innodb_flush_log_at_trx_commit  = 0
+innodb_flush_method             = O_DIRECT  # use fsync on Docker for Windows
+innodb_file_per_table           = 1
+innodb_autoinc_lock_mode        = 2
+innodb_lock_schedule_algorithm  = FCFS  # MariaDB >10.1.19 and >10.2.3 only
+
+wsrep_on                        = ON
+wsrep_provider                  = /usr/lib/galera/libgalera_smm.so
+wsrep_sst_method                = mariabackup
+wsrep_cluster_address           = gcomm://mariadb1.weave.local,mariadb2.weave.local,mariadb3.weave.local
+wsrep_sst_auth                  = root:root_password  # user and password for sync data between DB server instances
+
+bind-address                    = 0.0.0.0
+init-connect                    = 'SET NAMES utf8mb4'
+character-set-server            = utf8mb4
+collation-server                = utf8mb4_unicode_ci
+max_connections                 = 500
+max_connect_errors              = 4294967295
+connect_timeout                 = 20
+slave_net_timeout               = 30
+expire-logs-days                = 1
+skip-name-resolve
+
+[mysql]
+default-character-set=utf8mb4
+
+[client]
+default-character-set=utf8mb4
