@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+COMPOSE_VERSION="1.24.1"
+
 # Check user run this script with admin privilege
 if [[ $EUID -ne 0 ]]
   then echo "Please run as root"
@@ -27,4 +29,9 @@ then
     echo "Add user $1 to group docker"
     usermod -aG docker $1
 fi
+
+# install docker-compose
+curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+
 exit 0

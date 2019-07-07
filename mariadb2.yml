@@ -1,31 +1,32 @@
 version: "3.7"
 
 services:
-  image: mariadb:10.4.6
-  hostname: mariadb2.weave.local
-  container_name: mariadb2
-  replicas: 1
-  environment:
-    - MYSQL_ROOT_PASSWORD: root_password
-    - MYSQL_DATABASE: mydb
-    - MYSQL_USER: eavictor
-    - MYSQL_PASSWORD: eavictor_password
-  ports:
-    - "3306:3306"
-  expose:
-    - "4444"
-    - "4567"
-    - "4568"
-  volumes:
-    - type: bind
-      source: /home/eavictor/docker_mariadb_galera_cluster/mariadb.cnf
-      target: /etc/mysql/conf.d/my_custom.cnf
-    - type: bind
-      source: /home/eavictor/db_data
-      target: /var/lib/mysql
-
-  networks:
-    - default
+  db:
+    image: mariadb:10.4.6
+    hostname: mariadb2.weave.local
+    container_name: mariadb2
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=eavictor
+      - MYSQL_PASSWORD=eavictor_password
+    ports:
+      - "3306:3306"
+    expose:
+      - "4444"
+      - "4567"
+      - "4568"
+    volumes:
+      - type: bind
+        source: /home/eavictor/docker_mariadb_galera_cluster/mariadb.cnf
+        target: /etc/mysql/conf.d/my_custom.cnf
+      - type: bind
+        source: /home/eavictor/db_data
+        target: /var/lib/mysql
+    dns:
+      - 172.17.0.1
+    networks:
+      - default
 
 networks:
   default:

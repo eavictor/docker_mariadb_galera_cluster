@@ -3,6 +3,14 @@ MariaDB Galera Cluster on Docker (not Docker Swarm)
 
 Docker MariaDB Galera Cluster using official image.
 
+
+Credit
+------
+Based on this `tutorial`_ written by Vijay Singh Shekhawat.
+
+.. _tutorial: https://www.binlogic.io/blog/galera-cluster-docker/
+
+
 Claim
 -----
 I only tested on Ubuntu 18.04 LTS
@@ -15,15 +23,19 @@ I'm waiting for MariaDB release their acquired ClustrixDB, seems this is the sol
 
 And please remain this for free (at least remain free if <= 7 servers for use to test auto sharding functions)
 
-Credit
-------
-Based on this `tutorial`_ written by Vijay Singh Shekhawat.
-
-.. _tutorial: https://www.binlogic.io/blog/galera-cluster-docker/
-
 
 Installation
 ------------
+
+0. Create ``db_data`` folder and clone repo
+
+- This example assume username is eavictor, otherwise you have to modify ``yml`` files
+
+.. code-block:: bash
+
+    cd ~
+    mkdir db_data
+    git clone https://github.com/eavictor/docker_mariadb_galera_cluster.git
 
 
 1. Install Docker-CE on each node
@@ -40,6 +52,8 @@ Installation
 - Must apply ``Host*_IP`` and separate by "space", you can apply as many host as you want.
   If you want to setup a cluster with 5 hosts, then apply all 5 IPs as parameter,
   execute same command on each node.
+
+- Note : Enter all hosts (including self) will showing 1 failure later, this does not impact performance.
 
 .. code-block:: bash
 
@@ -61,17 +75,29 @@ Installation
 
 .. code-block:: bash
 
-    docker-compose up -f mariadb1.yml -d
+    docker-compose -f mariadb1.yml up
+    docker-compose -f mariadb1.yml up -d
 
 
 5. Start Docker MariaDB on other Hosts
 
 - Repeat this command on all nodes except the bootstrap node
 
+- NOTE : On Host 2 and Host 3 after running the docker container the entrypoint script checks the mysqld service in the background after database initialization by using MySQL root user without password. Since Galera automatically performs synchronization through SST or IST when starting up, the MySQL root user password will change, mirroring the bootstrapped node. Thus, you would see the following error during the first start up:
+
+- First Run (fail) :
+
 .. code-block:: bash
 
-    docker-compose up -f mariadb*.yml -d
+    docker-compose -f mariadb*.yml up
+    docker-compose -f mariadb*.yml up -d
 
+- Second Run (start sync) :
+
+.. code-block:: bash
+
+    docker-compose -f mariadb*.yml up --no-recreate
+    docker-compose -f mariadb*.yml up -d --no-recreate
 
 6. Stop bootstrap container
 
@@ -79,7 +105,7 @@ Installation
 
 .. code-block:: bash
 
-    docker-compose stop
+    docker-compose -f mariadb1.yml stop
 
 
 7. Modify configuration files, add galera communication hosts back
@@ -95,4 +121,5 @@ Installation
 
 .. code-block:: bash
 
-    docker-compose up -d --no-recreate
+    docker-compose -f mariadb1.yml up --no-recreate
+    docker-compose -f mariadb1.yml up -d --no-recreate

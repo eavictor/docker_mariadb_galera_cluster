@@ -29,7 +29,7 @@ Requires=docker.service
 After=docker.service
 [Service]
 EnvironmentFile=-/etc/sysconfig/weave
-ExecStartPre=/usr/local/bin/weave launch --no-restart ${PEERS}
+ExecStartPre=/usr/local/bin/weave launch --no-restart \${PEERS}
 ExecStart=/usr/bin/docker attach weave
 ExecStop=/usr/local/bin/weave stop
 [Install]
@@ -37,8 +37,18 @@ WantedBy=multi-user.target
 EOF
 
 # Start and Enable weave service on boot
+/usr/local/bin/weave reset
 systemctl daemon-reload
 systemctl start weave
 systemctl enable weave
+
+# Show weave status
+systemctl status weave
+echo "Targets :"
+weave status targets
+echo "Connections :"
+weave status connections
+echo "Peers :"
+weave status peers
 
 exit 0
