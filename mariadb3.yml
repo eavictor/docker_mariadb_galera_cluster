@@ -18,7 +18,7 @@ services:
       - "4568"
     volumes:
       - type: bind
-        source: /home/eavictor/docker_mariadb_galera_cluster/mariadb.cnf
+        source: /home/eavictor/docker_mariadb_galera_cluster/mariadb3.cnf
         target: /etc/mysql/conf.d/my_custom.cnf
       - type: bind
         source: /home/eavictor/db_data

@@ -64,11 +64,11 @@ Installation
 
 - Edit ``wsrep_cluster_address``, value must be ``gcomm://``
 
-- See `mariadb_bootstrap_example.cnf`_ for how configured file looks like.
+- See `mariadb1_bootstrap_example.cnf`_ for how configured file looks like.
 
-.. _mariadb_bootstrap_example.cnf: mariadb_bootstrap_example.cnf
+.. _mariadb1_bootstrap_example.cnf: mariadb1_bootstrap_example.cnf
 
-- Note: Must modify mariadb.cnf by yourself !!
+- Note: Must modify mariadb1.cnf by yourself !!
 
 
 4. Start Docker MariaDB on Host 1
@@ -110,9 +110,9 @@ Installation
 
 7. Modify configuration files, add galera communication hosts back
 
-- See `mariadb.cnf`_ ``gcomm://`` section, add those IPs/Hosts back and save.
+- See `mariadb1.cnf`_ ``gcomm://`` section, add those IPs/Hosts back and save.
 
-.. _mariadb.cnf: mariadb.cnf
+.. _mariadb1.cnf: mariadb1.cnf
 
 
 8. Start container on Host 1 again

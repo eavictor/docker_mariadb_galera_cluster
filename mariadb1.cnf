@@ -2,19 +2,22 @@
 default_storage_engine          = InnoDB
 binlog_format                   = ROW
 
-innodb_flush_log_at_trx_commit  = 0
 # innodb_flush_method : use fsync on Docker for Windows
+# innodb_lock_schedule_algorithm : MariaDB >10.1.19 and >10.2.3 only
+innodb_flush_log_at_trx_commit  = 0
 innodb_flush_method             = O_DIRECT
 innodb_file_per_table           = 1
 innodb_autoinc_lock_mode        = 2
-# innodb_lock_schedule_algorithm : MariaDB >10.1.19 and >10.2.3 only
 innodb_lock_schedule_algorithm  = FCFS
 
+# wsrep_sst_auth : user and password for syncing data between DB server instances
 wsrep_on                        = ON
 wsrep_provider                  = /usr/lib/galera/libgalera_smm.so
 wsrep_sst_method                = mariabackup
+wsrep_cluster_name              = mini_galera_cluster
 wsrep_cluster_address           = gcomm://mariadb1.weave.local,mariadb2.weave.local,mariadb3.weave.local
-# wsrep_sst_auth : user and password for syncing data between DB server instances
+wsrep_node_name                 = mariadb1
+wsrep_node_address              = mariadb1.weave.local
 wsrep_sst_auth                  = root:root_password
 
 bind-address                    = 0.0.0.0
