@@ -38,7 +38,7 @@ Before You Start
 
 - NOTE 1 : I recommend run as foreground on Step 5 First Run, then run as background on Step 5 Second Run.
 
-- NOTE 2 : you can find container name in ``yml`` file, value of ``container_name`` is the container name we defined. Or you can execute below command to retrieve all containers information.
+- NOTE 2 : you can find container name in ``yml`` file, value of ``container_name`` is the container name we defined. Or you can execute below command to retrieve container names.
 
 .. code-block:: bash
 
